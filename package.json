@@ -13,6 +13,7 @@
     "posttest": "npm run format",
     "prepare": "husky",
     "pretest": "npm run lint",
+    "start": "node src/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
