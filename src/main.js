@@ -1,7 +1,10 @@
 // src/main.js
 
+import os from 'node:os';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
+
+import { commandsRegister } from './register.js';
 
 const options = { username: { type: 'string', short: 'u' } };
 
@@ -21,17 +24,47 @@ function printUsage(argv) {
   ].forEach((s) => process.stdout.write(s));
 }
 
+function prompt() {
+  process.stdout.write(`\nYou are currently in [${process.cwd()}]\n> `);
+}
+
 async function main(argv) {
+  let username = '';
   try {
     const { values } = parseArgs({ args: argv.slice(2), options });
 
     if (!values.username) {
       throw Error('Please introduce yourself!');
     }
+
+    ({ username } = values);
   } catch (error) {
     process.stdout.write(`${error.message}\n`);
     printUsage(argv);
     return 1;
+  }
+
+  process.stdout.write(`Welcome to the File Manager, ${username}!\n`);
+
+  process.chdir(os.homedir());
+
+  prompt();
+
+  for await (const input of process.stdin) {
+    const line = input.toString();
+    const command = line.trim().split(/\s+/);
+
+    if (command[0]) {
+      const handler = commandsRegister.find(command[0]);
+      try {
+        const { exit } = await handler.execute(...command);
+        if (exit) break;
+      } catch (error) {
+        process.stderr.write(`${error.message}\n`);
+      }
+    }
+
+    prompt();
   }
 
   return 0;
