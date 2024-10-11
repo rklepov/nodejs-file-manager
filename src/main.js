@@ -46,6 +46,17 @@ async function main(argv) {
 
   process.stdout.write(`Welcome to the File Manager, ${username}!\n`);
 
+  process.on('exit', () => {
+    process.stdout.write(
+      `\nThank you for using File Manager, ${username}, goodbye!\n`,
+    );
+  });
+
+  process.on('SIGINT', () => {
+    // eslint-disable-next-line n/no-process-exit
+    process.exit();
+  });
+
   process.chdir(os.homedir());
 
   prompt();
