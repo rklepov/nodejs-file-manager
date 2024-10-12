@@ -6,6 +6,7 @@ import { parseArgs } from 'node:util';
 
 import { commandsRegister } from './register.js';
 
+import './commands/files.js';
 import './commands/nwd.js';
 
 const options = { username: { type: 'string', short: 'u' } };
