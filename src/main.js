@@ -7,6 +7,7 @@ import { parseArgs } from 'node:util';
 import { commandsRegister } from './register.js';
 
 import './commands/files.js';
+import './commands/hash.js';
 import './commands/nwd.js';
 import './commands/os.js';
 
