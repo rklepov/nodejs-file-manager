@@ -8,6 +8,13 @@ import { pipeline } from 'node:stream/promises';
 import { commandsRegister } from '../register.js';
 import { Command } from './command.js';
 
+function reportCopy(from, to) {
+  const cwd = process.cwd();
+  process.stdout.write(
+    `${path.relative(cwd, from)} -> ${path.relative(cwd, to)}\n`,
+  );
+}
+
 class Cat extends Command {
   constructor() {
     super('cat', 1);
@@ -54,6 +61,8 @@ class Copy extends Command {
     } catch (_) {
       /* ok, assume the target doesn't exist */
     }
+
+    reportCopy(from, to);
 
     await pipeline(
       fs.createReadStream(from),
