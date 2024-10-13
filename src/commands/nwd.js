@@ -1,6 +1,6 @@
 // src/commands/nwd.js
 
-import { readdir } from 'node:fs/promises';
+import { mkdir, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { chdir, cwd } from 'node:process';
 
@@ -24,6 +24,16 @@ class Chdir extends Command {
 
   async run(path) {
     chdir(path);
+  }
+}
+
+class Mkdir extends Command {
+  constructor() {
+    super('md', 1);
+  }
+
+  async run(path) {
+    await mkdir(path);
   }
 }
 
@@ -76,6 +86,6 @@ class List extends Command {
   }
 }
 
-[Up, Chdir, List].forEach((ctor) => commandsRegister.add(new ctor()));
+[Up, Chdir, List, Mkdir].forEach((ctor) => commandsRegister.add(new ctor()));
 
 //__EOF__
