@@ -33,7 +33,12 @@ class Create extends Command {
   }
 
   async run(filename) {
-    fs.createWriteStream(filename, { flags: 'wx' }).end();
+    return new Promise((resolve, reject) => {
+      fs.createWriteStream(filename, { flags: 'wx' })
+        .on('error', (e) => reject(e))
+        .on('finish', () => resolve(filename))
+        .end();
+    });
   }
 }
 
