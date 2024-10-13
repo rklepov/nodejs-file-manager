@@ -1,7 +1,8 @@
 // src/commands/filesystem.js
 
 import fs from 'node:fs';
-import { rename, unlink } from 'node:fs/promises';
+import { rename, stat, unlink } from 'node:fs/promises';
+import path from 'node:path';
 import { pipeline } from 'node:stream/promises';
 
 import { commandsRegister } from '../register.js';
@@ -45,6 +46,15 @@ class Copy extends Command {
   }
 
   async run(from, to) {
+    try {
+      const entry = await stat(to);
+      if (entry.isDirectory()) {
+        to = path.join(to, path.basename(from));
+      }
+    } catch (_) {
+      /* ok, assume the target doesn't exist */
+    }
+
     await pipeline(
       fs.createReadStream(from),
       fs.createWriteStream(to, { flags: 'wx' }),
