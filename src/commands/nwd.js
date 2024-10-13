@@ -35,20 +35,19 @@ class List extends Command {
   async run() {
     const entries = await readdir(cwd(), { withFileTypes: true });
 
-    entries
+    const listing = entries
       .map((entry) => {
-        return { name: entry.name, type: this.getDirEntryType(entry) };
+        return { Name: entry.name, Type: this.getDirEntryType(entry) };
       })
       .sort((a, b) => {
-        let cmp = a.type.localeCompare(b.type);
+        let cmp = a.Type.localeCompare(b.Type);
         if (cmp === 0) {
-          cmp = a.name.localeCompare(b.name);
+          cmp = a.Name.localeCompare(b.Name);
         }
         return cmp;
-      })
-      .forEach((entry, ix) => {
-        this.prettyPrint(entry, ix);
       });
+
+    this.prettyPrint(listing);
   }
 
   getDirEntryType(entry) {
@@ -72,8 +71,8 @@ class List extends Command {
     }, '');
   }
 
-  prettyPrint(entry, ix) {
-    process.stdout.write(`${ix} ${entry.name} ${entry.type}\n`);
+  prettyPrint(listing) {
+    console.table(listing);
   }
 }
 
