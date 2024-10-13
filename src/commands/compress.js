@@ -2,8 +2,8 @@
 
 import fs from 'node:fs';
 import { pipeline } from 'node:stream/promises';
+import { createBrotliCompress, createBrotliDecompress } from 'node:zlib';
 
-import { createGunzip, createGzip } from 'node:zlib';
 import { commandsRegister } from '../register.js';
 import { Command } from './command.js';
 
@@ -15,7 +15,7 @@ class Compress extends Command {
   async run(source, target) {
     await pipeline(
       fs.createReadStream(source),
-      createGzip(),
+      createBrotliCompress(),
       fs.createWriteStream(target, { flags: 'wx' }),
     );
   }
@@ -29,7 +29,7 @@ class Decompress extends Command {
   async run(source, target) {
     await pipeline(
       fs.createReadStream(source),
-      createGunzip(),
+      createBrotliDecompress(),
       fs.createWriteStream(target, { flags: 'wx' }),
     );
   }
