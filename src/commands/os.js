@@ -39,6 +39,9 @@ class OS extends Command {
     }
     if (cpus) {
       process.stdout.write(`#CPU: ${os.cpus().length}\n`);
+      os.cpus().forEach((cpu, ix) => {
+        process.stdout.write(`${ix}: ${cpu.model} (${cpu.speed}MHz)\n`);
+      });
     }
     if (homedir) {
       process.stdout.write(`Home: ${os.homedir()}\n`);
