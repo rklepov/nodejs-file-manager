@@ -69,8 +69,15 @@ async function main(argv) {
   prompt();
 
   for await (const input of process.stdin) {
-    const line = input.toString();
-    const command = line.trim().split(/\s+/);
+    const line = input
+      .toString()
+      .replaceAll(/\s+(?=([^"]*"[^"]*")*[^"]*$)/g, '\0'); // https://stackoverflow.com/a/9584469/10488248
+
+    const command = line
+      .trim()
+      .split('\0')
+      .slice(0, -1)
+      .map((s) => s.replace(/^"(.+(?="$))"$/, '$1')); // https://stackoverflow.com/a/19156197/10488248
 
     if (command[0]) {
       const handler = commandsRegister.find(command[0]);
