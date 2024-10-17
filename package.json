@@ -7,12 +7,7 @@
   },
   "type": "module",
   "scripts": {
-    "commitlint": "commitlint --edit",
-    "format": "prettier --log-level warn --write \"**/*.{js,md}\"",
-    "lint": "eslint . --cache --fix",
-    "posttest": "npm run format",
-    "prepare": "husky",
-    "pretest": "npm run lint",
+    "start": "node src/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,21 +20,6 @@
     "url": "https://github.com/rklepov/nodejs-file-manager/issues"
   },
   "homepage": "https://github.com/rklepov/nodejs-file-manager#readme",
-  "devDependencies": {
-    "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0",
-    "@eslint/js": "^9.12.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^9.12.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-n": "^17.10.3",
-    "eslint-plugin-promise": "^7.1.0",
-    "globals": "^15.10.0",
-    "husky": "^9.1.6",
-    "lint-staged": "^15.2.10",
-    "prettier": "3.3.3"
-  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
